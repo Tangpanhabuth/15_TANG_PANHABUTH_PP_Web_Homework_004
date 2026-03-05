@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do List</title>
+    <link rel="stylesheet" href="./output.css">
+
+   
+</head>
+<body class="bg-cyan-100 p-5">
+
+    <div class="m-auto max-w-[1200px] h-auto rounded-3xl">
+        <div class="flex p-6 justify-between">
+            <div><h1 class="font-bold text-5xl text-black">Task List</h1></div>
+            <div><Button onclick="document.getElementById('buth_add').showModal()" class="px-5 py-4 bg-green-600 rounded-3xl text-white text-2xl font-bold hover:bg-green-900 hover:text-slate-200">Add task</Button></div>
+        </div>
+    </div>
+
+    <div class="m-auto max-w-[1200px] h-auto bg-white rounded-3xl mt-5 shadow-lg">
+        <div class="flex p-5 justify-around">
+            <h1  class="font-bold text-3xl text-cyan-400 ">Task</h1>
+            <h1 class="font-bold text-3xl text-cyan-400" >Priority</h1>
+            <h1 class="font-bold text-3xl text-cyan-400" >Status</h1>
+            <h1 class="font-bold text-3xl text-yellow-400" >Action</h1>
+        </div>
+    </div>
+
+    <div id="task_list" class="m-auto max-w-[1200px] mt-5 space-y-4">
+
+    </div>
+
+            <!-- add modal -->
+            <dialog id="buth_add" class=" rounded-3xl shadow-2xl">
+                    <div class="w-[600px] bg-white rounded-3xl p-8 relative">
+
+                        <button onclick="document.getElementById('buth_add').close()"
+                            class="absolute top-6 right-6 border-2  rounded-lg px-3 py-1 hover:text-red-600">✕
+                        </button>
+
+                        <h2 class="text-2xl font-bold mb-3">Add Task</h2>
+
+                        <label class="block font-bold mb-2">Task</label>
+                        <input type="text" placeholder="write here..." id="add_text"
+                            class="w-full border-2 border-cyan-400 rounded-full px-6 py-3 mb-6">
+
+                        <h3 class="font-bold mb-3">Priority</h3>
+                        <div class="flex gap-4 mb-6">
+                        <button onclick="setPriority(this), setColor(this,'red')"  class="border-2 border-red-300 text-red-500 rounded-full px-6 py-2 hover:bg-red-500 hover:text-white" id="p_hight">High</button>
+                        <button onclick="setPriority(this), setColor(this,'yellow')" class="z-1 border-2 border-yellow-300 text-yellow-400 rounded-full px-6 py-2 hover:bg-yellow-500 hover:text-white">Medium</button>
+                        <button onclick="setPriority(this), setColor(this,'green')" class="border-2 border-green-300 text-green-500 rounded-full px-6 py-2 hover:bg-green-500 hover:text-white" id="p_low">Low</button>
+                        </div>
+
+                        <h3 class="font-bold mb-3">Status</h3>
+                        <div class="flex gap-4 mb-8">
+                        <button onclick="setStatus(this),setColor(this,'cyan')" class="border-2 border-cyan-400 text-cyan-500 rounded-full px-6 py-2 hover:bg-cyan-500 hover:text-white" id="s_todo">To Do</button>
+                        <button onclick="setStatus(this),setColor(this,'cyan')" class="border-2 border-cyan-400 text-cyan-500 rounded-full px-6 py-2 hover:bg-cyan-500 hover:text-white" id="p_progress">Progress</button>
+                        <button onclick="setStatus(this) ,setColor(this,'cyan')" class="border-2 border-cyan-400 text-cyan-500 rounded-full px-6 py-2 hover:bg-cyan-500 hover:text-white " id="p_done">Done</button>
+                        </div>
+
+                        <div class="flex justify-end">
+                        <button id="add_task" class="bg-purple-400 hover:bg-purple-600 text-white px-10 py-3 rounded-full font-bold">
+                            Add
+                        </button>
+                        </div>
+
+                    </div>
+            </dialog>
+
+            <!-- delete modal -->
+            <dialog id="buth_remove" class="m-auto rounded-3xl shadow-2xl">
+                <div class="w-[600px] bg-white rounded-3xl p-8 relative">
+                    <button onclick="document.getElementById('buth_remove').close()"
+                            class="absolute top-6 right-6 border-2  rounded-lg px-3 py-1 hover:text-red-600">✕
+                        </button>
+
+                    <h2 class="text-3xl font-bold mb-3 text-red-500 text-center">
+                        Are you sure want to Delete?
+                    </h2>
+
+                    <div class="flex justify-around mt-5">
+
+                        <button onclick="deleteTask()"
+                        class="bg-slate-400 hover:bg-slate-600 text-white px-10 py-3 rounded-full font-bold">
+                        yes
+                        </button>
+                        <button onclick="document.getElementById('buth_remove').close()"
+                        class="bg-slate-400 hover:bg-slate-600 text-white px-10 py-3 rounded-full font-bold">
+                        No
+                        </button>
+                        
+
+                        
+
+                    </div>
+
+                </div>
+            </dialog>
+
+            <!-- add modal -->
+            <dialog id="buth_edit" class=" rounded-3xl shadow-2xl">
+                    <div class="w-[600px] bg-white rounded-3xl p-8 relative">
+
+                        <button onclick="document.getElementById('buth_edit').close()"
+                            class="absolute top-6 right-6 border-2  rounded-lg px-3 py-1 hover:text-red-600">✕
+                        </button>
+
+                        <h2 class="text-2xl font-bold mb-3">Edit Task</h2>
+
+                        <label class="block font-bold mb-2">Task</label>
+                        <input type="text" placeholder="write here..." id="edit_text"
+                            class="w-full border-2 border-cyan-400 rounded-full px-6 py-3 mb-6">
+
+                        <h3 class="font-bold mb-3">Priority</h3>
+                        <div class="flex gap-4 mb-6">
+                        <button onclick="setPriority(this), setColor(this,'red')"  class="border-2 border-red-300 text-red-500 rounded-full px-6 py-2 hover:bg-red-500 hover:text-white" >High</button>
+                        <button onclick="setPriority(this), setColor(this,'yellow')" class="border-2 border-yellow-300 text-yellow-400 rounded-full px-6 py-2 hover:bg-yellow-500 hover:text-white">Medium</button>
+                        <button onclick="setPriority(this), setColor(this,'green')" class="border-2 border-green-300 text-green-500 rounded-full px-6 py-2 hover:bg-green-500 hover:text-white" >Low</button>
+                        </div>
+
+                        <h3 class="font-bold mb-3">Status</h3>
+                        <div class="flex gap-4 mb-8">
+                        <button onclick="setStatus(this),setColor(this,'cyan')" class="border-2 border-cyan-400 text-cyan-500 rounded-full px-6 py-2 hover:bg-cyan-500 hover:text-white" >To Do</button>
+                        <button onclick="setStatus(this),setColor(this,'cyan')" class="border-2 border-cyan-400 text-cyan-500 rounded-full px-6 py-2 hover:bg-cyan-500 hover:text-white" >Progress</button>
+                        <button onclick="setStatus(this) ,setColor(this,'cyan')" class="border-2 border-cyan-400 text-cyan-500 rounded-full px-6 py-2 hover:bg-cyan-500 hover:text-white ">Done</button>
+                        </div>
+
+                        <div class="flex justify-end">
+                        <button id="edit_task" class="bg-purple-400 hover:bg-purple-600 text-white px-10 py-3 rounded-full font-bold">
+                            Save
+                        </button>
+                        <button  onclick="document.getElementById('buth_edit').close()" class="bg-slate-400 hover:bg-slate-600 text-white px-10 py-3 rounded-full font-bold">
+                            Cancel
+                        </button>
+                        </div>
+
+                    </div>
+            </dialog>
+
+            
+    
+</body>
+</html>
+
+<script>
+
+let tasks = []
+let status = ""
+let priority = ""
+let editIndex=null
+function setStatus(btn){
+status = btn.innerText
+
+}
+
+function setPriority(btn){
+priority = btn.innerText
+
+}
+
+
+function setColor(btn,color){
+    let buttons = btn.parentElement.children
+    for(let i=0;i<buttons.length;i++){
+        buttons[i].classList.remove(
+            "bg-red-500","bg-yellow-500","bg-green-500","bg-cyan-500","text-white"
+        )
+    }
+    btn.classList.add("bg-"+color+"-500","text-white")
+}
+
+function editTask(i){
+    editIndex=i
+    let t = tasks[i]
+    document.getElementById("edit_text").value = t.name
+
+    priority = t.priority
+    status = t.status
+
+    document.getElementById("buth_edit").showModal()
+
+}
+
+document.getElementById("edit_task").onclick = function(){
+ let text = document.getElementById("edit_text").value
+ tasks[editIndex].name =text
+ tasks[editIndex].status =status
+ tasks[editIndex].priority = priority
+
+ document.getElementById("buth_edit").close()
+ showTasks()
+ 
+}
+
+document.getElementById("add_task").onclick = function(){
+
+
+    let text = document.getElementById("add_text").value
+
+
+    if(text === ""){
+        alert("task require ")
+        return
+    }
+    if(status === ""){
+        alert("status require ")
+        return
+    }if(priority === ""){
+        alert("priority require ")
+        return
+    }
+
+    let task = {
+        name : text,
+        status : status,
+        priority : priority,
+    }
+
+    tasks.push(task)
+    document.getElementById("add_text").value = ""
+    status = ""
+    priority = ""
+
+    let buttons = document.querySelectorAll("#buth_add button")
+
+    buttons.forEach(btn=>{
+        btn.classList.remove(
+            "bg-red-500","bg-yellow-500","bg-green-500","bg-cyan-500","text-white"
+        )
+    })
+    
+    document.getElementById("buth_add").close()
+    
+
+    showTasks()
+
+}
+let deleteIndex = null
+
+function confirmDelete(i){
+    deleteIndex = i
+    document.getElementById("buth_remove").showModal()
+}
+
+function deleteTask(){
+    tasks.splice(deleteIndex,1)
+    document.getElementById("buth_remove").close()
+    showTasks()
+}
+
+function showTasks(){
+
+    let taskList = document.getElementById("task_list")
+    taskList.innerHTML = ""
+
+    for(let i=0; i<tasks.length; i++){
+
+        let t = tasks[i]
+
+        let priorityColor = ""
+
+        if(t.priority === "High"){
+            priorityColor = "text-red-500"
+        }
+        else if(t.priority === "Medium"){
+            priorityColor = "text-yellow-500"
+        }
+        else{
+            priorityColor = "text-green-500"
+        }
+
+        let statusColor = "text-cyan-500"
+
+
+        taskList.innerHTML += `
+        <div class="bg-white p-5 rounded-2xl shadow flex justify-around">
+            <h1 class="text-xl">${t.name}</h1>
+            <h1 class="text-xl ${priorityColor}">${t.priority}</h1>
+            <h1 class="text-xl ${statusColor}">${t.status}</h1>
+
+            <div>
+                <button onclick="editTask(${i})"
+                class="bg-yellow-500 text-white px-4 py-1 rounded-lg">
+                Edit
+                </button>
+                <button onclick="confirmDelete(${i})"
+                class="bg-red-500 text-white px-4 py-1 rounded-lg">
+                Delete
+                </button>
+                
+            </div>
+
+        </div>
+        `
+    }
+}
+
+</script>
